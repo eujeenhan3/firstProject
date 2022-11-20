@@ -1,0 +1,29 @@
+{% load static %}
+<!-- Header-->
+        <header class="bg-image" style="height: 300px">
+            <div class="container">
+            <div class="container mt-5 pt-5 text-center text-white position-absolute"
+            style="width: 100%; height: 300px">
+
+                    {% if category %}
+                    <h1 class="display-4 fw-bolder">Shop in {{category}}</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
+
+                    {% elif popular_items.exists %}
+                    <h1 class="display-4 fw-bolder">Shop in Popular Items</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
+                    {% elif new_items.exists %}
+                    <h1 class="display-4 fw-bolder">Shop in New Arrivals</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
+                    {% elif tag %}
+                    <h1 class="display-4 fw-bolder">Shop in Tag</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">{{tag}} 태그와 관련된 상품들 입니다.</p>
+                    {% else %}
+                    <h1 class="display-4 fw-bolder">Shop in Product</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
+                    {% endif %}
+            </div>
+            </div>
+            <img class="bg-image h-100" src="{% static 'product/image/header_image.jpeg' %}"
+             style="width: 100%; object-fit: cover; object-position: 0 20%;">
+        </header>

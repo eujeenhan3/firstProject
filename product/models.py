@@ -1,5 +1,8 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.utils import timezone
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill, ResizeToFit, Thumbnail
 
 # Create your models here.
 class AdditionalFeature(models.Model):
@@ -37,6 +40,7 @@ class Company(models.Model):
   address = models.CharField(max_length=50, unique=True)
   contact = models.CharField(max_length=50, unique=True)
   slug = models.SlugField(max_length=200, unique=True, allow_unicode=True)
+  company_image = models.ImageField(upload_to='product/company/images/%Y/%m/%d/', blank=True)
 
   def __str__(self):
     return self.name
@@ -48,12 +52,14 @@ class Company(models.Model):
     verbose_name_plural = 'Companies'
 
 class Product(models.Model):
-  title = models.CharField(max_length=30)
+  title = models.CharField(max_length=80)
   hook_text = models.CharField(max_length=100, blank=True)
   description = models.TextField()
-  product_image = models.ImageField(upload_to='product/images/%Y/%m/%d/', blank=True)
-  product_price = models.FloatField()
-  on_sale_price = models.FloatField(null=True, blank=True)
+  date = models.DateField(default=timezone.now, editable=True)
+  product_image = models.ImageField(upload_to='product/product/images//%Y/%m/%d/', blank=True)
+  detail_image = models.ImageField(upload_to='product/product/images/%Y/%m/%d/', blank=True)
+  product_price = models.IntegerField()
+  on_sale_price = models.IntegerField(null=True, blank=True)
   rating = models.IntegerField(default=1, validators=[MaxValueValidator(5), MinValueValidator(1)])
   company = models.ForeignKey(Company, null=True, blank=True, on_delete=models.SET_NULL)
   category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.SET_NULL)

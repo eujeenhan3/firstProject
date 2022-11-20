@@ -1,0 +1,142 @@
+{% extends 'product/base.html' %}
+{% load humanize %}
+{% block main_area %}
+{% include 'product/sidebar.html' %}
+        <!-- Product section-->
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-6">
+                        {% if product.product_image and product.detail_image %}
+                        <img id="product_img" class="card-img-top mb-5 mb-md-0 mx-auto" src="{{product.product_image.url}}" alt="{{product}}의 product_image"/>
+                        <img id="detail_img" class="card-img-top mb-5 mb-md-0 mx-auto" src="{{product.detail_image.url}}" alt="{{product}}의 detail_image"/>
+                        {% elif product.product_image %}
+                        <img class="card-img-top mb-5 mb-md-0" src="{{product.product_image.url}}" alt="{{product}}의 product_image"/>
+                        {% else %}
+                        <img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." />\
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <h6><a href="{{product.category.get_absolute_url}}" class="bg-light text-reset text-decoration-none mb-2">
+                            {{product.category|upper}}
+                        </a></h6>
+                        <div class="small mb-1"><a href="{{product.company.get_absolute_url}}" class="text-reset text-decoration-none">
+                            {{product.company}}</a></div>
+                        <h1 class="display-5 fw-bolder">{{product.title}}</h1>
+                        <!-- Product reviews-->
+                        {% if product.rating == 5 %}
+                        <div class="d-flex justify-content-left small text-warning mb-2">
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star-fill"></div>
+                        </div>
+                        {% endif %}
+                        {% if product.hook_text %}
+                        <h6 class="text-muted"><small><mark>{{product.hook_text}}</mark></small></h6>
+                        {% endif %}
+                        <div class="fs-5 mb-5">
+                            {% if product.on_sale_price %}
+                            <span class="text-muted text-decoration-line-through"><del>{{product.product_price}} 원</del></span>
+                            <span>{{product.on_sale_price}} 원</span>
+                            {% else %}
+                            <span>{{product.product_price}} 원</span>
+                            {% endif %}
+                        </div>
+                        {% if product.tags.exists %}
+                        <div class="mb-2">
+                            <i class="fas fa-tag" style="color:#0d6efd"></i>
+                            {% for t in product.tags.iterator %}
+                            <span class="badge badge-pill badge-light">
+                                <a href="{{t.get_absolute_url}}">{{t}}</a>
+                            </span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        <p class="lead">{{product.description|linebreaksbr}}</p>
+                        <div class="d-flex">
+                            <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
+                            <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                                <i class="bi-cart-fill me-1"></i>
+                                Add to cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Related items section-->
+        <section class="py-5 bg-light">
+            <div class="container px-4 px-lg-5 mt-5">
+                <h2 class="fw-bolder mb-4">Related products</h2>
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    {% if related_products.exists %}
+                    {% for p in related_products %}
+                    {% if p != product %}
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            {% if p.product_image %}
+                            <a href="{{p.get_absolute_url}}">
+                                <img class="card-img-top img-fluid mx-auto mb-2 d-block" style="width: auto; max-height: 280px;" src="{{p.product_image.url}}" alt="{{p}}의 product_image"/>
+                            </a>
+                            {% else %}
+                            <a href="{{p.get_absolute_url}}">
+                                <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                            </a>
+                            {% endif %}
+                            <!-- Product details-->
+                            <div class="card-body pb-0">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <a href="{{p.get_absolute_url}}" class="text-reset text-decoration-none">
+                                        <h5 class="fw-bolder mt-1">{{p.title}}</h5>
+                                    </a>
+                                    {% if p.hook_text %}
+                                    <h6 class="text-muted"><small><mark>{{p.hook_text}}</mark></small></h6>
+                                    {% endif %}
+                                    <!-- Product reviews-->
+                                    {% if p.rating == 5 %}
+                                    <div class="d-flex justify-content-center small text-warning mb-2">
+                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div>
+                                        <div class="bi-star-fill"></div>
+                                    </div>
+                                    {% endif %}
+                                    <!-- Product price-->
+                                    <a href="{{p.get_absolute_url}}" class="text-reset text-decoration-none">
+                                    {% if p.on_sale_price %}
+                                    <span class="text-muted text-decoration-line-through"><del>{{p.product_price|intcomma}} 원</del></span>
+                                    {{p.on_sale_price|intcomma}} 원
+                                    {% else %}
+                                    {{p.product_price|intcomma}} 원
+                                    {% endif %}
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- Product actions-->
+                            {% if p.on_sale_price %}
+                            <div class="card-footer pb-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a tabindex="0" class="btn btn-sm btn-outline-dark mt-auto" data-trigger="focus" data-toggle="popover" data-placement="top" title="행사정보" data-content="이 상품은 현재 할인 중 이며 {{related_products_count}}개의 관련 상품이 있습니다!">View options</a></div>
+                            </div>
+                            {% elif p.hook_text %}
+                            <div class="card-footer pb-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a tabindex="0" class="btn btn-sm btn-outline-dark mt-auto" data-trigger="focus" data-toggle="popover" data-placement="top" title="Guarantee" data-content="이 상품은 신선함 또는 Animal Welfare를 보증하는 상품입니다!">View options</a></div>
+                            </div>
+                            {% else %}
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a tabindex="0" class="btn btn-sm btn-outline-dark mt-auto" data-trigger="focus" data-toggle="popover" data-placement="top" title="행사정보" data-content="현재 진행 중인 행사가 없습니다.">View options</a></div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+{% endblock %}
