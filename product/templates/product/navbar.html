@@ -8,12 +8,20 @@
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">Shop</a>
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">Shop</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="/product/">All Products</a></li>
                                 <li><hr class="dropdown-divider" /></li>
                                 <li><a class="dropdown-item" href="/product/popular_items/">Popular Items</a></li>
                                 <li><a class="dropdown-item" href="/product/new_arrivals/">New Arrivals</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-expanded="false">제조사</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                                {% for c in companies %}
+                                <li><a class="dropdown-item" href="{{c.get_absolute_url}}">{{c}}</a></li>
+                                {% endfor %}
                             </ul>
                         </li>
                     </ul>

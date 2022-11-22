@@ -1,6 +1,10 @@
+{% load static %}
 <!-- Footer-->
-        <footer class="py-5 bg-dark">
-            <div class="container w-50 vertical-center">
+        <footer class="bg-img">
+            <img class="bg-img position-absolute" src="{% static 'product/image/footer_image.jpeg' %}"
+             style="width: 100%; height: 225px; object-fit: cover; object-position: 0 100%;">
+            <div class="pt-5 pt-1">
+            <div class="container w-50 w-xs-100 vertical-center">
                 <dl class="row text-white px-5">
                     <dt class="col-lg-5 pl-lg-5 col-sm-4">주소</dt>
                     <dd class="col-lg-7 col-sm-8">서울특별시 도봉구 쌍문1동 삼양로144길 33</dd>
@@ -8,6 +12,12 @@
                     <dd class="col-lg-7 col-sm-8">02-901-8000</dd>
                 </dl>
             </div>
-
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
+            <div class="d-none d-md-block w-100 vertical-center">
+                <dl class="row text-white px-5">
+                    <dt></dt>
+                    <dd class="mt-2 col text-center">Copyright &copy; 덕성여자대학교 인터넷프로그래밍 2022</dd>
+                </dl>
+            </div>
+<!--        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>-->
+        </div>
         </footer>

@@ -37,10 +37,11 @@ class Category(models.Model):
 
 class Company(models.Model):
   name = models.CharField(max_length=50, unique=True)
-  address = models.CharField(max_length=50, unique=True)
-  contact = models.CharField(max_length=50, unique=True)
   slug = models.SlugField(max_length=200, unique=True, allow_unicode=True)
+  address = models.CharField(max_length=70)
+  contact = models.CharField(max_length=50, unique=True)
   company_image = models.ImageField(upload_to='product/company/images/%Y/%m/%d/', blank=True)
+  description = models.CharField(max_length=255, blank=True)
 
   def __str__(self):
     return self.name
