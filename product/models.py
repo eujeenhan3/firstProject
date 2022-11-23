@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils import timezone
 from imagekit.models import ImageSpecField
@@ -66,6 +67,7 @@ class Product(models.Model):
   category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.SET_NULL)
   tags = models.ManyToManyField(Tag, blank=True)
   additional_feature = models.ForeignKey(AdditionalFeature, null=True, blank=True, on_delete=models.SET_NULL)
+  author = models.ForeignKey(User, default='admin', null=True, on_delete=models.SET_NULL)
 
   def __str__(self):
     return f'[{self.pk}] {self.title}:: {self.product_price} : {self.company}'

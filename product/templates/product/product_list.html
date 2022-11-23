@@ -3,19 +3,30 @@
 {% block main_area %}
 {% include 'product/header.html' %}
 {% include 'product/sidebar.html' %}
+
         <!-- Section-->
         <section class="py-5" style="background: linear-gradient(white, #efefef);">
             <div class="container px-4 px-lg-5 mt-5">
+
                 {% if company %}
                 {% include 'product/company_card.html' %}
                 {% endif %}
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    {% if user.is_superuser or user.is_staff %}
+                        {% if user.is_superuser or user.is_staff %}
+                            {% include 'product/superuser_adder_productlist.html' %}
+                        {% endif %}
+                    {% endif %}
                     {% if product_list.exists %}
                     {% for p in product_list %}
                     <div class="col mb-5">
                         <div class="card h-100">
+                            {% if user.is_superuser or user.is_staff %}
+                                {% include 'product/superuser_editor.html' %}
+                            {% endif %}
                             <!-- Sale badge-->
                             <div class="block">
+
                                 {% if p.on_sale_price and p.additional_feature %}
                                 <div class="badge bg-light position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
                                 <div class="badge bg-light position-absolute" style="top: 0.5rem; right: 3rem">
@@ -38,7 +49,7 @@
                             </a>
                             {% endif %}
                             <!-- Product details-->
-                            <div class="card-body p-4">
+                            <div class="card-body p-4 pb-0 mb-0">
                                 <div class="text-center">
                                     <!-- Category -->
                                     <a href="{{p.category.get_absolute_url}}" class="text-reset text-decoration-none">
@@ -87,12 +98,11 @@
                                     <div class="d-none d-lg-block mt-3">
                                         <div class="small text-muted font-weight-light">{{p.description | truncatechars:60 | linebreaksbr}}</div>
                                     </div>
-
                                 </div>
                             </div>
                             <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
+                            <div class="card-footer pr-4 pl-4 pb-4 pt-1 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#"><i class="bi-cart-fill me-1 mr-1"></i> Add to cart</a></div>
                             </div>
                         </div>
                     </div>

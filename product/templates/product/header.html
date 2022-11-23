@@ -21,7 +21,7 @@
                     <h1 class="display-4 fw-bolder">Shop in {{company}}</h1>
                     <p class="lead fw-normal text-white-50 mb-0">{{company}}가 제공하는 {{company.product_set.count}}개의 상품이 있습니다.</p>
                     {% else %}
-                    <h1 class="display-4 fw-bolder">Shop in Product</h1>
+                    <h1 class="display-4 fw-bolder">{% block head_title %}Shop in Product{% endblock %}</h1>
                     <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
                     {% endif %}
                 </div>
